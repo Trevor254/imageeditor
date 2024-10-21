@@ -14,13 +14,23 @@ body{
 }
 
 .container{
-    width: 600px;
+    width: 800px;
     background: lightslategray;
     border-radius: 10px;
-    padding: 40px 55px 40px;
+    padding: 40px 85px 40px;
     box-shadow: 0 10px 20px;
     
 }
+
+/* //disabling all edit options if user has not selected any image  */
+
+.container.disable :where(.editor-panel, .reset-filter, .save-img) {
+    opacity:0.6;
+    pointer-events:none;
+}
+
+/* removing disable class once user selects image */
+
 
 .container h2{
    font-size: 20px;
