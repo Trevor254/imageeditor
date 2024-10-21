@@ -52,9 +52,15 @@
          <!--setting up control buttons-->
         <div class="controls">
             <button class="reset-filter">Reset Edits/Filters</button>
-            <button class="choose-img">Select Photo</button>
-            <button class="save-img">Save Photo</button>
+            <div class="row">
+                <!--this input will accept images-->
+                <input type="file" class="file-input" accept="image/*" hidden>
+                <button class="choose-img">Select Photo</button>
+                <button class="save-img">Save Photo</button>
+            </div>
         </div>
     </div>
+    <!--link to js file-->
+    <script src="index.js"></script>
 </body>
 </html>
