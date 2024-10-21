@@ -13,17 +13,17 @@
 </head>
 <body>
     <!--setting up the structure-->
-    <div class="container">
+    <div class="container disable">
         <h2>Basic Image Editor</h2>
         <div class="wrapper">
             <div class="editor-panel">
                 <div class="filter">
                     <label class="title">Filters</label>
                     <div class="options">
-                        <button class="active">Brightness</button>
-                        <button >Saturation</button>
-                        <button >Inversion</button>
-                        <button >Grayscale</button>
+                        <button id="brightness" class="active">Brightness</button>
+                        <button id="saturation">Saturation</button>
+                        <button id="inversion">Inversion</button>
+                        <button id="grayscale">Grayscale</button>
                     </div>
                     <div class="slider">
                         <div class="filter-info">
@@ -38,17 +38,20 @@
                     <label class="title">Rotate & Flip</label>
                     <div class="options">
                         <!--setting up font-awesome icons-->
-                        <button>R.left</button>
-                        <button>R.Right</button>
-                        <button><i class="bx bx-reflect-vertical"></i></button>
-                        <button><i class="bx bx-reflect-horizontal"></i></button>
+                        <button id="left">R.left</button>
+                        <button id="right">R.Right</button>
+                        <button id="horizontal"><i class="bx bx-reflect-vertical"></i></button>
+                        <button id="vertical"><i class="bx bx-reflect-horizontal"></i></button>
                     </div>
                 </div>
             </div>
+            <div class="preview-img">
+                <img src="https://www.ticketsasa.com/images/placeholder.jpg" alt="preview-img">
+            </div>
         </div>
-        <div class="preview-img">
+        <!-- <div class="preview-img">
             <img src="https://www.ticketsasa.com/images/placeholder.jpg" alt="preview-img">
-        </div>
+        </div> -->
          <!--setting up control buttons-->
         <div class="controls">
             <button class="reset-filter">Reset Edits/Filters</button>

@@ -5,8 +5,9 @@ filterValue = document.querySelector(".filter-info .value"),
 filterSlider = document.querySelector(".slider input"),
 previewImg = document.querySelector(".preview-img img"),
 rotateOptions = document.querySelectorAll(".rotate button"),
-chooseImage = document.querySelector(".choose-img")
-
+chooseImage = document.querySelector(".choose-img"),
+saveImage = document.querySelector(".save-img"),
+resetImage = document.querySelector(".reset-filter")
 //showing selected filter value
 let brightness = 100
 let saturation = 100
@@ -14,9 +15,11 @@ let inversion = 0
 let grayscale = 0
 
 let rotate = 0
+let flipHorizontal = 1
+let flipVertical = 1
 
 const applyFilters = () => {
-    previewImg.style.transform = `rotate(${rotate}deg)`
+    previewImg.style.transform = `rotate(${rotate}deg) scale(${flipHorizontal}, ${flipVertical})`
     previewImg.style.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`
 }
 
@@ -27,6 +30,7 @@ const loadImage = () => {
     //console.log(file)
     //removing disable class once user selects image
     previewImg.addEventListener("load",()=>{
+        resetFilter.click() // this will reset filter value should the user select a new image
         document.querySelector(".container").classList.remove("disable")
     })
 }
@@ -81,12 +85,56 @@ const updateFilter = () => {
     applyFilters()
 }
 
+const resetFilter = () => {
+    //reseting all conditons to default state
+brightness = 100
+saturation = 100
+inversion = 0
+grayscale = 0
+rotate = 0
+flipHorizontal = 1
+flipVertical = 1
+//resetting values
+filterOptions[0].click() //click brightness btn, so the brightness selected by default
+applyFilters()
+}
+
+const saveImg = () => {
+    const canvas = document.createElement("canvas") //creating canvas element
+    const draw = canvas.getContext("2d") //this method returns a drawing context on canvas
+    canvas.width = previewImg.naturalWidth; // sets canvas width to actual image width
+    canvas.height = previewImg.naturalHeight; // sets canvas height to actual uimage height
+
+    //applying user selected images to canvas filter
+    draw.filter = `brightness(${brightness}%) saturate(${saturation}%) invert(${inversion}%) grayscale(${grayscale}%)`
+    draw.translate(-canvas.width/ 2 , canvas.height / 2)// translates canvas from center
+    if(rotate !==0){  // if condition to rotate the canvas if the rotate value is not zero
+        draw.rotate(rotate * Math.PI/180)
+
+    }
+    draw.scale(flipHorizontal, flipVertical) // flips canvas either horizontal or vertical
+    draw.drawImage(previewImg, -canvas.width/ 2 , canvas.height / 2, -canvas.width, canvas.height)
+    //document.body.appendChild(canvas)
+    const link = document.createElement("a") //creates link element
+    link.download="image.jpg" // passes a tag download value to the jpeg image
+    link.href = canvas.toDataURL() // this passes href value to canvas
+    link.click() // clicking a tag to download the image
+//TESTING
+console.log("save image btn clicked")
+}
+
 rotateOptions.forEach(option => {
     option.addEventListener("click",() => {  //adding event listener to rotate & flip buttons
         if(option.id === "left"){
             rotate -= 90 // if clicked upon, decrement rotate value by - 90 degrees
         } else if(option.id === "right"){
             rotate += 90 //if clicked upon, decrement rotate value by - 90 degrees
+        } else if(option.id === "horizontal"){
+            //if flipHorizontal value is 1, set this value to -1 else set 1
+            flipHorizontal = flipHorizontal === 1 ? -1 : 1
+        } else {
+            //if flipvertical value is 1, set this value to -1 else set 1
+            flipVertical = flipVertical === 1 ? -1 : 1
         }
         //call apply filters function
         applyFilters()
@@ -103,5 +151,11 @@ filterSlider.addEventListener("input", updateFilter)
 
 //aadding event listener to the chooseImage functionality
 chooseImage.addEventListener("click",()=> fileInput.click()) //clicking file input on choose image button
+
+//saving image
+saveImage.addEventListener("click", saveImg)
+
+//reset filter
+resetImage.addEventListener("click", resetFilter)
 
 
